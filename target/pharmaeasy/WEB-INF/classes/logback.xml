@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %X{ctx_utid} %X{ctx_urtid} %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/buyercentralserver.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/buyercentralserver.%d.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %X{ctx_utid} %X{ctx_urtid} %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>500</queueSize>
+	</appender>
+	
+	<appender name="WEB_ACCESS"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/web_access.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/web_access.%d.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %X{ctx_utid} %X{ctx_urtid} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="LEAD_GEN"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/lead_gen.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/lead_gen.%d.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d %X{ctx_utid} %X{ctx_urtid} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="BROWSER_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.base}/logs/browser.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/browser.%d.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%X{ctx_utid} %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="WEB_ACCESS_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="WEB_ACCESS" />
+		<queueSize>500</queueSize>
+	</appender>
+	
+	<appender name="LEAD_GEN_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LEAD_GEN" />
+		<queueSize>500</queueSize>
+	</appender>
+	
+	<appender name="BROWSER_LOG_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="BROWSER_LOG" />
+		<queueSize>500</queueSize>
+	</appender>
+
+	<logger name="com.bonavita" level="info" additivity="false">
+		<appender-ref ref="ASYNC" />
+	</logger>
+	
+	<logger name="com.bonavita.ws.transport.service.http.HttpClientFactory" level="info" additivity="false">
+		<appender-ref ref="ASYNC" />
+	</logger>
+	
+	<logger name="WebAccessLog" level="info" additivity="false">
+		<appender-ref ref="WEB_ACCESS_ASYNC" />
+	</logger>
+	
+	<logger name="LeadGenLog" level="info" additivity="false">
+		<appender-ref ref="LEAD_GEN_ASYNC" />
+	</logger>
+	
+	<logger name="BrowserLog" level="info" additivity="false">
+		<appender-ref ref="BROWSER_LOG_ASYNC" />
+	</logger>
+
+	<root level="info">
+		<appender-ref ref="ASYNC" />
+	</root>
+
+</configuration>

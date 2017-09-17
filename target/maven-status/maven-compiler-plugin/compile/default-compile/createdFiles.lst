@@ -1,0 +1,5 @@
+com/pharamaeasy/repo/UserRepo.class
+com/pharamaeasy/entity/User.class
+com/pharamaeasy/base/Itest.class
+com/pharamaeasy/base/ItestImpl.class
+com/pharamaeasy/base/App.class
